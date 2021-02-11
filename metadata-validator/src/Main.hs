@@ -90,5 +90,5 @@ main = do
             x          -> error $ "Unknown status '" <> T.unpack x <> "' is not permitted."
     files   -> error $ "too many files changed!"
 
-  -- putStrLn $ "PR: " <> show pr
+  putStrLn $ "PR valid!"
   -- putStrLn $ "PR files : " <> show prFiles
