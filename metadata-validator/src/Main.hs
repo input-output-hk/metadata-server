@@ -25,14 +25,12 @@ import qualified Options.Applicative as Opt
 import qualified Data.ByteString.Base64 as Base64
 import Data.Aeson (FromJSON)
 import qualified Data.Aeson as Aeson
-import qualified Data.Aeson.Types as Aeson
 import qualified Data.Text.Encoding as TE
 import qualified Text.Megaparsec as P
 import qualified Text.Megaparsec.Char as P
 import qualified Data.ByteString.Lazy as BSL
 import qualified Data.ByteString.Lazy.Char8 as BSLC
 
-import Cardano.Metadata.Server.Types (Entry')
 import Config (Config(Config), opts, mkConfig, AuthScheme(NoAuthScheme, OAuthScheme))
 
 type Parser = P.Parsec Void Text
@@ -108,11 +106,8 @@ main = do
       case Aeson.eitherDecode content of
         Left err                   -> error $ "Content '" <> BSLC.unpack content <> "' is not a valid JSON value, decoding error was: '" <> show err <> "'."
         Right (obj :: Aeson.Value) -> do
-          case Aeson.parseEither Aeson.parseJSON obj of
-            Left err           -> error $ "Failed to decode Metadata entry from JSON value '" <> show obj <> "', error was: '" <> show err <> "'."
-            Right (entry :: Entry') -> do
-              putStrLn $ "PR valid!"
-              putStrLn $ "Decoded entry: " <> show entry
+          putStrLn $ "PR valid!"
+          putStrLn $ "Decoded entry: " <> show obj
     _files  -> error $ "Too many files changed!"
 
 -- | Maximum size in bytes of a metadata entry.
