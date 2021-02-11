@@ -1,0 +1,6 @@
+steps:
+  - label: 'Validate PR'
+    command:
+      - '$(nix-build -A metadata-validator)/bin/metadata-validator input-output-hk metadata-server $BUILDKITE_PULL_REQUEST --no-auth'
+    agents:
+      system: x86_64-linux
