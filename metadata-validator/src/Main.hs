@@ -42,8 +42,8 @@ pFileNameHex = do
   (digits :: Text) <- P.takeWhile1P (Just "hex digit/char") isHexDigit
 
   let numDigits = T.length digits
-  if numDigits < 56 || numDigits > 64
-    then fail $ "Expected 56-64 hex digits but found " <> show numDigits <> "."
+  if numDigits < 1 || numDigits > 256
+    then fail $ "Expected 1-256 hex digits but found " <> show numDigits <> "."
     else pure ()
 
   _fileSuffix <- P.string ".json"
