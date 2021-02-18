@@ -10,7 +10,8 @@ extra-source-files:  ../CHANGELOG.md
 library
   hs-source-dirs:      src
 
-  exposed-modules:     Cardano.Metadata.Server
+  exposed-modules:     Cardano.Metadata.Types
+                       Cardano.Metadata.Server
                        Cardano.Metadata.Server.Types
                        Cardano.Metadata.Server.API
                        Cardano.Metadata.Store.Types
@@ -53,6 +54,7 @@ library
                      , servant-github-webhook
                      , servant-server
                      , smallcheck
+                     , sop-core
                      , tasty
                      , tasty-hedgehog
                      , tasty-hspec
