@@ -16,7 +16,6 @@ library
                        Cardano.Metadata.Store.Types
                        Cardano.Metadata.Store.Simple
                        Cardano.Metadata.Types.Common
-                       Cardano.Metadata.Types.Wallet
                        Cardano.Metadata.Types.Weakly
                        Cardano.Metadata.Webhook.Types
                        Cardano.Metadata.Webhook.API
@@ -129,7 +128,6 @@ test-suite unit-tests
                         Test.Cardano.Metadata.Server
                         Test.Cardano.Metadata.Store.Simple
                         Test.Cardano.Metadata.Types
-                        Test.Cardano.Metadata.Types.Wallet
 
   ghc-options:          -Wall
                         -Wincomplete-record-updates

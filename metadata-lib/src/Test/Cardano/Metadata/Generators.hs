@@ -38,7 +38,6 @@ import           Cardano.Metadata.Types.Common (AnnotatedSignature,
                                                 Property (Property),
                                                 PropertyName (PropertyName),
                                                 Subject (Subject), unSubject, mkAnnotatedSignature)
-import qualified Cardano.Metadata.Types.Wallet as Wallet
 import qualified Cardano.Metadata.Types.Weakly as Weakly
 
 data ComplexType = ComplexType { _ctArr :: [Int]
@@ -147,57 +146,8 @@ uriAuthority = do
                     ]
   pure $ URIAuth mempty (T.unpack $ "www." <> mid <> end) mempty
 
-assetURL :: MonadGen m => m Wallet.AssetURL
-assetURL = Wallet.AssetURL <$> httpsURI
-
-ticker :: MonadGen m => m Wallet.Ticker
-ticker = Wallet.Ticker <$> Gen.text (Range.linear 2 4) Gen.unicodeAll
-
-assetLogo :: MonadGen m => m Wallet.AssetLogo
-assetLogo = Wallet.AssetLogo . Encoded . convertToBase Base64 . BS.pack <$> Gen.list (Range.linear 0 256) (Gen.word8 Range.constantBounded)
-
-assetUnit :: MonadGen m => m Wallet.AssetUnit
-assetUnit = Wallet.AssetUnit
-  <$> Gen.text (Range.linear 1 30) Gen.unicodeAll
-  <*> Gen.integral (Range.linear 1 19)
-
 liftGen :: MonadGen m => Gen a -> m a
 liftGen = fromGenT . hoist (pure . runIdentity) 
-
-policy :: MonadGen m => m Wallet.Policy
-policy = do
-  script <- liftGen $ Cardano.genScriptInEra Cardano.MaryEra
-
-  pure $ Wallet.mkPolicy script
-
-walletMetadataSignedWith :: MonadGen m => Crypto.SignKeyDSIGN Crypto.Ed25519DSIGN -> Subject -> Wallet.Policy -> m Wallet.Metadata
-walletMetadataSignedWith skey subj pol = do
-  let
-    weakProp = do
-      pName <- propertyName 
-      prop  <- weaklyTypedPropertySignedWith skey subj pName
-      pure (pName, prop)
-
-  n      <- stronglyTypedPropertySignedWith skey subj "name" (Gen.text (Range.linear 1 50) Gen.unicodeAll)
-  desc   <- descriptionSignedWith skey subj
-  unit   <- Gen.maybe (stronglyTypedPropertySignedWith skey subj "unit" assetUnit)
-  logo   <- Gen.maybe (stronglyTypedPropertySignedWith skey subj "logo" assetLogo)
-  url    <- Gen.maybe (stronglyTypedPropertySignedWith skey subj "url" assetURL)
-  tick   <- Gen.maybe (stronglyTypedPropertySignedWith skey subj "ticker" ticker)
-  rest   <- (fmap HM.fromList $ Gen.list (Range.linear 1 5) weakProp)
-
-  pure $ Wallet.Metadata subj pol n desc unit logo url tick rest
-
-walletMetadata :: (MonadGen m, MonadIO m) => Subject -> Wallet.Policy -> m Wallet.Metadata
-walletMetadata subj pol = do
-  skey <- signingKey
-  walletMetadataSignedWith skey subj pol
-
-walletMetadata' :: (MonadGen m, MonadIO m) => m Wallet.Metadata
-walletMetadata' = do
-  pol <- policy
-  subj <- (Wallet.policyId pol <>) <$> Gen.text (Range.linear 0 200) (Gen.unicodeAll)
-  walletMetadata (Subject subj) pol
 
 batchRequest :: MonadGen m => m BatchRequest
 batchRequest =
