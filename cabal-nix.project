@@ -3,5 +3,6 @@ packages:
   ./metadata-server
   ./metadata-store-postgres
   ./metadata-webhook
+  ./metadata-validator-github
 tests: True
 benchmarks: True

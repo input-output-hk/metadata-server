@@ -5,6 +5,7 @@ packages:
   ./metadata-server
   ./metadata-webhook
   ./metadata-store-postgres
+  ./metadata-validator-github
 
 package metadata-lib
   tests: True
@@ -16,6 +17,9 @@ package metadata-webhook
   tests: True
 
 package metadata-store-postgres
+  tests: True
+
+package metadata-validator-github
   tests: True
 
 -- ---------------------------------------------------------

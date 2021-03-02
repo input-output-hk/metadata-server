@@ -1,0 +1,120 @@
+cabal-version:       >=1.10
+name:                metadata-validator-github
+version:             0.1.0.0
+license-file:        ../LICENSE
+author:              Samuel Evans-Powell
+maintainer:          mail@sevanspowell.net
+build-type:          Simple
+extra-source-files:  ../CHANGELOG.md
+
+library
+  hs-source-dirs:      src
+
+  exposed-modules:     Cardano.Metadata.Validate.GitHub
+
+  build-depends:       HUnit
+                     , QuickCheck
+                     , aeson
+                     , aeson-pretty
+                     , base
+                     , base64-bytestring
+                     , bytestring
+                     , cardano-api
+                     , cardano-api-test
+                     , cardano-crypto
+                     , cardano-metadata-submitter
+                     , cardano-crypto-class
+                     , casing
+                     , containers
+                     , deepseq
+                     , directory
+                     , github-webhooks
+                     , hashable
+                     , hedgehog
+                     , hspec
+                     , http-api-data
+                     , http-client
+                     , http-types
+                     , lens
+                     , lens-aeson
+                     , memory
+                     , mmorph
+                     , monad-logger
+                     , mtl
+                     , network-uri
+                     , quiet
+                     , raw-strings-qq
+                     , safe-exceptions
+                     , scientific
+                     , servant
+                     , servant-client
+                     , servant-github-webhook
+                     , servant-server
+                     , smallcheck
+                     , tasty
+                     , tasty-hedgehog
+                     , tasty-hspec
+                     , tasty-hunit
+                     , tasty-quickcheck
+                     , text
+                     , unordered-containers
+                     , validation
+                     , vector
+                     , wai
+                     , warp
+                     , wreq
+
+  ghc-options:          -Wall
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wincomplete-patterns
+                        -Wredundant-constraints
+                        -Wpartial-fields
+                        -Wcompat
+
+executable metadata-validator-github
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  build-depends:       aeson
+                     , base
+                     , base64-bytestring
+                     , bytestring
+                     , cardano-metadata-submitter
+                     , co-log
+                     , containers
+                     , directory
+                     , github
+                     , http-client
+                     , http-types
+                     , lens
+                     , lens-aeson
+                     , megaparsec
+                     , metadata-lib
+                     , monad-logger
+                     , mtl
+                     , optparse-applicative
+                     , safe-exceptions
+                     , scientific
+                     , servant
+                     , servant-github-webhook
+                     , servant-server
+                     , text
+                     , unordered-containers
+                     , validation
+                     , vector
+                     , wai
+                     , warp
+                     , wreq
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -fwarn-redundant-constraints
+                        -fwarn-incomplete-patterns
+                        -fwarn-unused-imports
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wno-unsafe
+                        -threaded
+
+  other-modules:        Paths_metadata_validator_github
+                        Config
