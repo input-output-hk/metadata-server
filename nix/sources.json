@@ -1,4 +1,28 @@
 {
+    "cardano-metadata-submitter": {
+        "branch": "feature/move-validation-to-submitter",
+        "description": "A library and CLI for manipulating data for the Metadata Server CIP",
+        "homepage": null,
+        "owner": "input-output-hk",
+        "repo": "cardano-metadata-submitter",
+        "rev": "6c676ecb4daa24702efc55d4e594e6b61d747994",
+        "sha256": "14q37dxihqfly3sq1a0j0y93pdakax88j3ir26xj6xms13y2rkf0",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/cardano-metadata-submitter/archive/6c676ecb4daa24702efc55d4e594e6b61d747994.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "cardano-node": {
+        "branch": "master",
+        "description": "The core component that is used to participate in a Cardano decentralised blockchain.",
+        "homepage": "https://cardano.org",
+        "owner": "input-output-hk",
+        "repo": "cardano-node",
+        "rev": "e15515b785f7caae0ae5d997b26d9c4518062c71",
+        "sha256": "1vqn4gv9hz53176rdh7nxa4cqxx3w1sqqgz6rgksnbi8sxm6c9ml",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/cardano-node/archive/99e678c008405426f4af774f16f4f132539622f5.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "haskell.nix": {
         "branch": "master",
         "description": "Alternative Haskell Infrastructure for Nixpkgs",
