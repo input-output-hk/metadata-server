@@ -47,10 +47,9 @@ To complete this tutorial you will need to:
   - be familiar with the cardano-cli
   - have a Cardano node setup (just a simple relay node is fine)
 
-It would also be helpful to read:
-https://developers.cardano.org/en/development-environments/native-tokens/native-tokens/
+It would also be helpful to read: [[https://developers.cardano.org/en/development-environments/native-tokens/native-tokens/][Cardano Developers: Native Tokens]]
 
-**** Instruction
+**** Instructions
 
 ***** Setup
 
@@ -63,7 +62,7 @@ export CARDANO_NODE_SOCKET_PATH=/run/cardano-node/node.socket
 
 We also need to set the network ID to use in subsequent cardano-cli
 commmands. This will vary depending on whether or not you're working
-on a testnet (--testnet-magic ...) or mainnet (--mainnet). Set it
+on a testnet (=--testnet-magic ...=) or mainnet (=--mainnet=). Set it
 appropriately.
 
 #+BEGIN_SRC shell :tangle asset.sh :tangle-mode (identity #o755)
@@ -91,8 +90,8 @@ cardano-cli: HandshakeError (Refused NodeToClientV_8 "version data mismatch: Nod
 #+END_SRC
 
 That means you chose the wrong network magic (3) and need to change
-your network magic to "1097911063" (i.e. use "--testnet-magic
-1097911063")
+your network magic to "1097911063"
+(i.e. use "=--testnet-magic 1097911063=")
 
 ***** Funding an address
 
@@ -151,9 +150,8 @@ cardano-cli query utxo \
 
 The faucet is only available on the testnet. If you don't have an API
 key, you can still get funds from the faucet, you'll just need to
-submit this form:
-https://developers.cardano.org/en/testnets/cardano/tools/faucet/. If
-you're on mainnet, you'll need to buy some ADA.
+submit this form: [[https://developers.cardano.org/en/testnets/cardano/tools/faucet/][Cardano Testnet Faucet]].
+If you're on mainnet, you'll need to buy some ADA.
 
 ***** Choosing a UTxO
 
@@ -352,7 +350,8 @@ required for your transaction to become visible may vary.
 
 ***** Burning assets
 
-Assets are destroyed in much the same way they are created: with transactions!
+Assets are destroyed in much the same way they are created: with
+transactions!
 
 Firstly we determine the ADA availbe in a UTxO:
 
@@ -688,7 +687,7 @@ Yoroi, and other products that use this metadata.
 
 The metadata system is made up of a few components, each of which we
 will set up separately. To get a visual overview of what we will be
-creating, you can refer to the [[#structure-diagram][structure diagram]].
+creating, you can refer to the [[structure-diagram][Structure diagram]].
 
 We need to:
 
@@ -1300,6 +1299,8 @@ that provides:
 The following is a diagram that shows how the various components of
 this project work together to form the metadata system:
 
+#+CAPTION: Structure of metadata system
+#+NAME: structure-diagram
 [[./structure-diagram.svg]]
 
 
@@ -1347,8 +1348,8 @@ executed in source blocks with the following format:
 #+END_SRC
 
 This introduces a source code block (of type "shell" or "bash") that
-when tangled, is written out to a file called "no-nix-setup.sh" with
-the permissions "755" (rwx/r-x/r-x).
+when tangled, is written out to a file called =no-nix-setup.sh= with
+0755 permissions (=rwx/r-x/r-x=).
 
 A [[./default.nix][Nix derivation]] calls emacs and tangles this documentation file,
 producing various scripts specified by the source code blocks. These
@@ -1364,4 +1365,4 @@ with (from the root directory of this project):
 nix-build default.nix -A docScripts
 #+END_SRC
 
-and find them in ./result/bin/...
+and find them in =./result/bin/*=.
