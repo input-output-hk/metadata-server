@@ -45,7 +45,7 @@ set -euo pipefail
 
 To complete this tutorial you will need to:
   - be familiar with the cardano-cli
-  - setup a Cardano node (just a simple relay node is fine)
+  - have a Cardano node setup (just a simple relay node is fine)
 
 It would also be helpful to read:
 https://developers.cardano.org/en/development-environments/native-tokens/native-tokens/
@@ -61,7 +61,7 @@ can communicate with the node:
 export CARDANO_NODE_SOCKET_PATH=/run/cardano-node/node.socket
 #+END_SRC
 
-We also need to set the network ID to use in subsequence cardano-cli
+We also need to set the network ID to use in subsequent cardano-cli
 commmands. This will vary depending on whether or not you're working
 on a testnet (--testnet-magic ...) or mainnet (--mainnet). Set it
 appropriately.
@@ -70,8 +70,9 @@ appropriately.
 export NETWORK_ID="--testnet-magic 1097911063"
 #+END_SRC
 
-Note that if you do set it incorrectly the cardano-cli will give you a
-helpful error message, so feel free to just choose something for now.
+Note that if you do set it incorrectly the cardano-cli will give you
+an error message that will help you determine the correct value, so
+feel free to just choose something for now.
 
 You can run the following cardano-cli command to test it's ability to
 communicate with the node:
@@ -83,13 +84,23 @@ cardano-cli query protocol-parameters \
 
 If this successfully returns some JSON, you're good to continue.
 
+If you see an error something like this:
+
+#+BEGIN_SRC text :tangle no
+cardano-cli: HandshakeError (Refused NodeToClientV_8 "version data mismatch: NodeToClientVersionData {networkMagic = NetworkMagic {unNetworkMagic = 1097911063}} /= NodeToClientVersionData {networkMagic = NetworkMagic {unNetworkMagic = 3}}")
+#+END_SRC
+
+That means you chose the wrong network magic (3) and need to change
+your network magic to "1097911063" (i.e. use "--testnet-magic
+1097911063")
+
 ***** Funding an address
 
 The minting of assets is done using regular transactions, and regular
 transactions require fees! So the first thing we'll need to do is find
 (or create) an address with some funds. If you already have an address
-with some funds, feel free to use that and skip this section, but set
-the ~PAYMENT_ADDR~ environment variable accordingly.
+with some funds, feel free to use that and skip to [[* Choosing a UTxO][the next section]],
+but set the ~PAYMENT_ADDR~ environment variable accordingly.
 
 We'll create our payment keys and address:
 
@@ -142,7 +153,7 @@ The faucet is only available on the testnet. If you don't have an API
 key, you can still get funds from the faucet, you'll just need to
 submit this form:
 https://developers.cardano.org/en/testnets/cardano/tools/faucet/. If
-you are on mainnet, you'll need to buy some ADA.
+you're on mainnet, you'll need to buy some ADA.
 
 ***** Choosing a UTxO
 
@@ -169,10 +180,10 @@ echo
 echo "UTxO: $UTXO#$UTXO_TXIX"
 #+END_SRC
 
-And we'll also need to choose an amount of tokens to mint. Here we
-just mint the same number of tokens as we have funds available, but
-you can just choose any positive integer, there's no requirement that
-the amount of funds used and the amount of tokens minted be equal.
+We'll also need to choose an amount of tokens to mint. Here we mint
+the same number of tokens as we have funds available, but you can
+choose any positive integer, there's no requirement that the amount of
+tokens minted be equal to the funds used.
 
 #+BEGIN_SRC shell :tangle asset.sh :tangle-mode (identity #o755)
 export AMT=$(cardano-cli query utxo $NETWORK_ID --address $PAYMENT_ADDR --mary-era | tail -n1 | awk '{print $3;}')
@@ -677,7 +688,7 @@ Yoroi, and other products that use this metadata.
 
 The metadata system is made up of a few components, each of which we
 will set up separately. To get a visual overview of what we will be
-creating, you can refer to the [[*Structure diagram][structure diagram]].
+creating, you can refer to the [[#structure-diagram][structure diagram]].
 
 We need to:
 
@@ -720,9 +731,9 @@ export NIXOS_CONFIG_FILE="/etc/nixos/configuration.nix"
 export POSTGRES_PORT=5432
 #+END_SRC
 
-Next, we need to make the metadata-server project available to our
-NixOS configuration. There are many ways to do this, but we'll use a
-package called niv:
+We need to make the metadata-server project available to our NixOS
+configuration. There are many ways to do this, but we'll use a package
+called niv:
 
 #+BEGIN_SRC shell :tangle no
 cd /etc/nixos
@@ -797,12 +808,6 @@ cat <<EOF > metadata-config.nix
     '';
   };
 
-  users = {
-    # users = {
-    #   "${METADATA_SERVER_LINUX_USER}".isSystemUser = true;
-    # };
-  };
-
   nix.binaryCaches = [
     "https://cache.nixos.org"
     "https://hydra.iohk.io"
@@ -847,7 +852,7 @@ $METADATA_PSQL \
 curl localhost:${METADATA_SERVER_PORT}/metadata/b377d03a568dde663534e040fc32a57323ec00970df0e863eba3f098717569640a | jq .
 #+END_SRC
 
-***** Other
+***** Other (non-NixOS)
 
 ****** Preamble
 
@@ -869,8 +874,8 @@ database containing a single table. The metadata-server tool itself
 will ensure that the table has the correct schema, so we don't even
 need to set that up.
 
-Let's first start but setting up some variables, these may be
-different on your system.
+Let's first start with setting some variables, these may need to be
+different on your system, but this is a good first start.
 
 #+BEGIN_SRC shell :tangle no-nix-setup.sh
 export METADATA_DB="metadata_db"
@@ -1058,11 +1063,11 @@ export WEBHOOK_PUBLIC_URL="$(curl http://127.0.0.1:4040/api/tunnels | jq '.tunne
 #+END_SRC
 
 Please note that this URL will expire after about an hour. You'll have
-to execute the above two commands to get a new URL.
+to repeat the above two commands to get a new URL.
 
 We can now send GitHub payloads to this URL and our metadata-webhook
 will receive them. To test that this actually works, we need to setup
-a GitHub repository...
+a GitHub repository.
 
 **** GitHub repository
 ***** Webhook
@@ -1337,8 +1342,8 @@ documentation in a process known as "tangling". We write commands to be
 executed in source blocks with the following format:
 
 #+BEGIN_SRC text :tangle no
-  \#+BEGIN_SRC shell :tangle no-nix-setup.sh :tangle-mode (identity #o755)
-  \#+END_SRC
+  ​#+BEGIN_SRC shell :tangle no-nix-setup.sh :tangle-mode (identity #o755)
+  ​#+END_SRC
 #+END_SRC
 
 This introduces a source code block (of type "shell" or "bash") that
