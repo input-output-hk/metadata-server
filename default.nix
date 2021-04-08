@@ -32,10 +32,11 @@ let
   nixosTests = recRecurseIntoAttrs (import ./nix/nixos/tests {
     inherit pkgs;
   });
+  docScripts = pkgs.callPackage ./docs/default.nix { };
 
   self = {
     inherit metadataServerHaskellPackages metadataValidatorGitHubTarball;
-    inherit haskellPackages hydraEvalErrors nixosTests;
+    inherit haskellPackages hydraEvalErrors nixosTests docScripts;
 
     inherit (pkgs.iohkNix) checkCabalProject;
 

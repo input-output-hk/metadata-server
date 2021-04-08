@@ -7,7 +7,7 @@ import           Cardano.Metadata.Store.Postgres.Config (Opts, parseOpts)
 opts :: ParserInfo Opts
 opts =
   info
-    ( parseOpts )
+    ( parseOpts <**> helper )
     ( fullDesc
     <> progDesc "Start the metadata web server"
     <> header "metadata-server - a tool to serve off-chain metadata"

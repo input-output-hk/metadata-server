@@ -35,6 +35,11 @@ let
           // { inherit overlays sources; };
 
         svcLib = import ./svclib.nix { inherit pkgs; };
+
+        cardano-node = (import sources."cardano-node" {}).cardano-node;
+        cardano-cli = (import sources."cardano-node" {}).cardano-cli;
+
+        cardano-metadata-submitter = (import sources."cardano-metadata-submitter" {}).cardano-metadata-submitter;
       })
       # And, of course, our haskell-nix-ified cabal project:
       (import ./pkgs.nix)
