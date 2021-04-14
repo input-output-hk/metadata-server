@@ -2,6 +2,7 @@
 , crossSystem ? null
 , config ? {}
 , sourcesOverride ? {}
+
 }:
 let
   sources = import ./sources.nix { inherit pkgs; }
@@ -41,8 +42,6 @@ let
 
         cardano-metadata-submitter = (import sources."cardano-metadata-submitter" {}).cardano-metadata-submitter;
       })
-      # And, of course, our haskell-nix-ified cabal project:
-      (import ./pkgs.nix)
     ];
 
   pkgs = import nixpkgs {
